@@ -9,5 +9,5 @@ eureka:
     enabled: false
 
 server:
-  port: 6670
+  port: 3700
 #
