@@ -29,9 +29,11 @@ public class Client extends AbstractClient {
     @Column(unique = true, nullable = false)
     private String clientId;
 
-//    relationships
+    //    relationships
     @OneToMany(mappedBy = "client")
     private List<Tasks> tasks;
+    @OneToMany(mappedBy = "client")
+    private List<ClientReviews> clientReviews;
 
     @PrePersist
     public void setInitialDetails() {

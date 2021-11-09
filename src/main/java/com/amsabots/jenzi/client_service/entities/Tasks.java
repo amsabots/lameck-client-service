@@ -9,6 +9,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tasks_table")
@@ -17,14 +18,24 @@ import java.util.Date;
 @Data
 @ToString
 public class Tasks extends AbstractClient {
-
     private String title;
     private String description;
     private Date completionDate;
     @Enumerated(EnumType.STRING)
     private TaskState taskState;
+    @Column(nullable = false)
+    private String taskId;
 
     @ManyToOne
     @JoinColumn(name = "clientId")
     private Client client;
+
+    @ManyToOne
+    @JoinColumn(name = "taskCategoryId")
+    private TaskCategory taskCategory;
+
+    @PrePersist
+    public void setEntryDefaults() {
+        setTaskId(UUID.randomUUID().toString().replaceAll("-", ""));
+    }
 }
