@@ -14,4 +14,5 @@ public interface TaskRepo extends JpaRepository<Tasks, Long> {
 
     @Query("select t from Tasks  t where t.client.id =:id")
     public Page<Tasks> findTasksByClientId(@Param("id") long id, Pageable pageable);
+
 }
