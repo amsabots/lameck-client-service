@@ -10,4 +10,6 @@ eureka:
 
 server:
   port: 27900
+  servlet:
+    context-path: /client/api
 #

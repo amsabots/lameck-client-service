@@ -1,9 +1,11 @@
 package com.amsabots.jenzi.client_service.entities;
 
+import com.amsabots.jenzi.client_service.repos.ClientSettingsRepo;
 import com.amsabots.jenzi.client_service.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 public class Client extends AbstractClient {
+
     private String name;
     @Column(unique = true, nullable = false)
     private String email;
@@ -40,7 +43,6 @@ public class Client extends AbstractClient {
         setUserBackgroundColor(Utils.createRandomColor());
         if (null != clientId)
             setClientId(UUID.randomUUID().toString().replaceAll("-", ""));
-
     }
 
 

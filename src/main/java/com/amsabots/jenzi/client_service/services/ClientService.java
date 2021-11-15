@@ -23,7 +23,7 @@ public class ClientService {
         return clientRepo.findById(id).orElseThrow(() -> new CustomResourceNotFound("No client with the provided identifier"));
     }
 
-    public Client createClient(Client client) {
+    public Client createClientOrUpdate(Client client) {
         return clientRepo.save(client);
     }
 
