@@ -19,8 +19,9 @@ import java.util.UUID;
 public class Client extends AbstractClient {
 
     private String name;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String email;
+    @Column(unique = true)
     private String phoneNumber;
     private String userBackgroundColor;
     private boolean isActive = true;
@@ -31,12 +32,15 @@ public class Client extends AbstractClient {
     private String provider;
     @Column(unique = true, nullable = false)
     private String clientId;
+    private String password;
 
     //    relationships
     @OneToMany(mappedBy = "client")
     private List<Tasks> tasks;
     @OneToMany(mappedBy = "client")
     private List<ClientReviews> clientReviews;
+    @OneToOne(mappedBy = "client")
+    private ClientSettings clientSettings;
 
     @PrePersist
     public void setInitialDetails() {

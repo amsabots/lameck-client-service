@@ -1,8 +1,11 @@
-package com.amsabots.jenzi.client_service;
+package com.amsabots.jenzi.client_service.controllers;
 
 import com.amsabots.jenzi.client_service.entities.Client;
+import com.amsabots.jenzi.client_service.entities.ClientSettings;
 import com.amsabots.jenzi.client_service.errorHandlers.CustomResourceNotFound;
+import com.amsabots.jenzi.client_service.repos.ClientSettingsRepo;
 import com.amsabots.jenzi.client_service.services.ClientService;
+import com.amsabots.jenzi.client_service.services.ClientSettingsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +27,8 @@ import java.util.stream.Collectors;
 public class ClientController {
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private ClientSettingsService settingsRepo;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Client>> getClients(@RequestParam(required = false) Integer page,
@@ -45,6 +50,15 @@ public class ClientController {
     public ResponseEntity<String> deleteClient(@PathVariable Long id) {
         clientService.deleteClient(id);
         return ResponseEntity.ok("\"statusCode\":200, \"message\":\"client id submitted has been removed successfully\"");
+    }
+
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Client> initializeClient(@RequestBody Client client) {
+        Client c = clientService.createClientOrUpdate(client);
+        ClientSettings clientSettings = new ClientSettings();
+        clientSettings.setClient(c);
+        settingsRepo.saveDefaultSettings(clientSettings);
+        return ResponseEntity.ok(c);
     }
 
 

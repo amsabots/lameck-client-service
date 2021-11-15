@@ -15,16 +15,16 @@ public class ClientSettingsService {
     @Autowired
     private ClientSettingsRepo repo;
 
-    private void saveDefaultSettings(ClientSettings clientSettings) {
+    public void saveDefaultSettings(ClientSettings clientSettings) {
         repo.save(clientSettings);
     }
 
-    private ClientSettings getClientSettings(long id) {
+    public ClientSettings getClientSettings(long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new CustomResourceNotFound("The settings resource entry is not present"));
     }
 
-    private void deleteSettings(long id) {
+    public void deleteSettings(long id) {
         repo.deleteById(id);
     }
 }

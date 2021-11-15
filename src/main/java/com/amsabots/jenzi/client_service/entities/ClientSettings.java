@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author andrew mititi on Date 11/15/21
@@ -27,5 +26,9 @@ public class ClientSettings extends AbstractClient {
     private float scanRadius = 10;
     private boolean hideSensitiveAccountData = false;
     private boolean useApplicationDefaultSettings = true;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "clientId", referencedColumnName = "id")
+    private Client client;
 
 }
