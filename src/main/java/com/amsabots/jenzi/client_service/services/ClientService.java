@@ -19,8 +19,11 @@ public class ClientService {
         return clientRepo.findAll(pageable);
     }
 
-    public Client getClientById(long id) {
-        return clientRepo.findById(id).orElseThrow(() -> new CustomResourceNotFound("No client with the provided identifier"));
+    public Client getClientById(String id) {
+        if (id.length() > 6) return clientRepo.findClientByClientId(id)
+                .orElseThrow(() -> new CustomResourceNotFound("No client with the provided identifier"));
+        return clientRepo.findById(Long.valueOf(id))
+                .orElseThrow(() -> new CustomResourceNotFound("No client with the provided identifier"));
     }
 
     public Client createClientOrUpdate(Client client) {

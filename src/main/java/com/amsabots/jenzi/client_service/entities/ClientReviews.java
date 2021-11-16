@@ -17,6 +17,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 public class ClientReviews extends AbstractClient {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     private String review;
     private float stars;
     private long fundiReview;

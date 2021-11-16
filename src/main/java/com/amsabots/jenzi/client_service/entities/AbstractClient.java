@@ -17,7 +17,5 @@ public class AbstractClient implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+
 }

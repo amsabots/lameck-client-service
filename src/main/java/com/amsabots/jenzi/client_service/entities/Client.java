@@ -1,6 +1,7 @@
 package com.amsabots.jenzi.client_service.entities;
 
 import com.amsabots.jenzi.client_service.repos.ClientSettingsRepo;
+import com.amsabots.jenzi.client_service.utils.ClientAccountProvider;
 import com.amsabots.jenzi.client_service.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,10 @@ import java.util.UUID;
 @Data
 public class Client extends AbstractClient {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     private String name;
     @Column(unique = true)
     private String email;
@@ -28,9 +33,10 @@ public class Client extends AbstractClient {
     private boolean isVerified = false;
     private String currentLocation;
     private String secondaryPhonenumber;
-    @Column(nullable = false)
-    private String provider;
-    @Column(unique = true, nullable = false)
+
+    @Enumerated(EnumType.STRING)
+    private ClientAccountProvider provider;
+    @Column(unique = true)
     private String clientId;
     private String password;
 
@@ -45,8 +51,10 @@ public class Client extends AbstractClient {
     @PrePersist
     public void setInitialDetails() {
         setUserBackgroundColor(Utils.createRandomColor());
-        if (null != clientId)
+        if (null == clientId) {
             setClientId(UUID.randomUUID().toString().replaceAll("-", ""));
+            setProvider(ClientAccountProvider.CUSTOM);
+        }
     }
 
 

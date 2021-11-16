@@ -20,6 +20,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientSettings extends AbstractClient {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     private boolean isProfilePhotoVisible = true;
     private boolean isSetAlertEnabled = true;
     private boolean enableLiveLocations = false;

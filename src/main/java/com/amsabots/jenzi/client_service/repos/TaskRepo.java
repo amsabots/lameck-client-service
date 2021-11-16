@@ -9,10 +9,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.scheduling.config.Task;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskRepo extends JpaRepository<Tasks, Long> {
 
     @Query("select t from Tasks  t where t.client.id =:id")
     public Page<Tasks> findTasksByClientId(@Param("id") long id, Pageable pageable);
+
+    public Optional<Tasks> findTasksByTaskId(String taskId);
 
 }

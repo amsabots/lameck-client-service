@@ -1,6 +1,7 @@
 package com.amsabots.jenzi.client_service.errorHandlers;
 
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,8 @@ public class ErrorAdvisorController {
         return ResponseEntity.ok(new ErrorEntity(ex.getMessage(), HttpStatus.NOT_FOUND.value(), "NOT_FOUND"));
     }
 
-    @ExceptionHandler({RollbackException.class, EmptyResultDataAccessException.class})
+    @ExceptionHandler({RollbackException.class,
+            EmptyResultDataAccessException.class, DataIntegrityViolationException.class})
     public ResponseEntity<ErrorEntity> handleJpaSqlException(Exception ex) {
         if (ex.getMessage().contains("exists"))
             return ResponseEntity.ok(new ErrorEntity("Resource with the id provided cannot be found.",

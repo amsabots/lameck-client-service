@@ -18,6 +18,10 @@ import java.util.UUID;
 @Data
 @ToString
 public class Tasks extends AbstractClient {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     private String title;
     private String description;
     private Date completionDate;
