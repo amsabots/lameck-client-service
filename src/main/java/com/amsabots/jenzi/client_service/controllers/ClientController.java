@@ -74,10 +74,17 @@ public class ClientController {
     }
 
     //update client endpoint
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "{/id}")
-    public ResponseEntity<Client> updateClient(@RequestBody(required = false) Client client, @PathVariable Long id) {
-        client.setId(id);
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/{id}")
+    public ResponseEntity<Client> updateClient(@RequestBody(required = false) Client client, @PathVariable String id) {
+        Client e = clientService.getClientById(id);
+        client.setId(e.getId());
         return ResponseEntity.ok(clientService.createClientOrUpdate(client));
+    }
+
+    //get client using email provided - primarily used to fetch account details during signup/login
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/details-email")
+    public ResponseEntity<Client> findClientByEmail(@RequestParam String email) {
+        return ResponseEntity.ok(clientService.findAccountByEmail(email));
     }
 
 

@@ -33,4 +33,9 @@ public class ClientService {
     public void deleteClient(long id) {
         clientRepo.deleteById(id);
     }
+
+    public Client findAccountByEmail(String email){
+        return clientRepo.findClientByEmail(email)
+                .orElseThrow(()-> new CustomResourceNotFound("Account with that specified email does not exist"));
+    }
 }
