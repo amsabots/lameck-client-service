@@ -61,7 +61,10 @@ public class ClientTasksServices {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Tasks> updateJobRecord(@PathVariable String id, @RequestBody(required = false) Optional<Tasks> tasks) {
+    public ResponseEntity<Tasks> updateJobRecord(@PathVariable String id, @RequestBody(required = false)
+            Optional<Tasks> tasks) {
+        Tasks uTask = tasks.get();
+        log.info(uTask.toString());
         tasks.orElseThrow(
                         () -> new CustomBadRequest("Upload payload conforming to the object defined must be provided in part/full"))
                 .setTaskId(id);

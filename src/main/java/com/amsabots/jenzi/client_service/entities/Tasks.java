@@ -2,6 +2,8 @@ package com.amsabots.jenzi.client_service.entities;
 
 
 import com.amsabots.jenzi.client_service.utils.TaskState;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 @ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Tasks extends AbstractClient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
