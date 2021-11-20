@@ -27,7 +27,7 @@ public class Tasks extends AbstractClient {
     private Date completionDate;
     @Enumerated(EnumType.STRING)
     private TaskState taskState;
-    @Column(nullable = false)
+    @Column(nullable = false,updatable = false)
     private String taskId;
 
     @ManyToOne
@@ -41,5 +41,6 @@ public class Tasks extends AbstractClient {
     @PrePersist
     public void setEntryDefaults() {
         setTaskId(UUID.randomUUID().toString().replaceAll("-", ""));
+        setTaskState(TaskState.PENDING);
     }
 }
