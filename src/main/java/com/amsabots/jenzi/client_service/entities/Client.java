@@ -1,12 +1,11 @@
 package com.amsabots.jenzi.client_service.entities;
 
-import com.amsabots.jenzi.client_service.repos.ClientSettingsRepo;
-import com.amsabots.jenzi.client_service.utils.ClientAccountProvider;
+import com.amsabots.jenzi.client_service.enumUtils.AccountType;
+import com.amsabots.jenzi.client_service.enumUtils.ClientAccountProvider;
 import com.amsabots.jenzi.client_service.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.List;
@@ -36,9 +35,13 @@ public class Client extends AbstractClient {
 
     @Enumerated(EnumType.STRING)
     private ClientAccountProvider provider;
+    @Enumerated
+    private AccountType accountType = AccountType.FREE;
+
     @Column(unique = true)
     private String clientId;
     private String password;
+    private float accountBalance = 0;
 
     //    relationships
     @OneToMany(mappedBy = "client")

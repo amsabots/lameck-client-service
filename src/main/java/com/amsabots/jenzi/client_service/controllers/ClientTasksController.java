@@ -24,7 +24,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/jobs")
 @Slf4j
-public class ClientTasksServices {
+public class ClientTasksController {
 
     @Autowired
     private TaskRepo taskRepo;

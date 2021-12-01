@@ -1,9 +1,8 @@
 package com.amsabots.jenzi.client_service.entities;
 
 
-import com.amsabots.jenzi.client_service.utils.TaskState;
+import com.amsabots.jenzi.client_service.enumUtils.TaskState;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

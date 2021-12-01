@@ -2,6 +2,7 @@ package com.amsabots.jenzi.client_service.services;
 
 
 import com.amsabots.jenzi.client_service.entities.ClientReviews;
+import com.amsabots.jenzi.client_service.errorHandlers.CustomResourceNotFound;
 import com.amsabots.jenzi.client_service.repos.ClientReviewsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,11 +28,15 @@ public class ClientReviewService {
         reviewsRepo.deleteById(id);
     }
 
-    public void createOrUpdate(ClientReviews clientReviews) {
-        reviewsRepo.save(clientReviews);
+    public ClientReviews createOrUpdate(ClientReviews clientReviews) {
+       return reviewsRepo.save(clientReviews);
     }
 
     public Page<ClientReviews> getReviewsByClientId(long id, Pageable pageable) {
         return reviewsRepo.getClientReviewsByClientId(id, pageable);
+    }
+
+    public ClientReviews findReviewById(long id){
+        return reviewsRepo.findById(id).orElseThrow(()-> new CustomResourceNotFound("The review with provided ID does not exist"));
     }
 }

@@ -19,8 +19,8 @@ public class ClientSettingsService {
         repo.save(clientSettings);
     }
 
-    public ClientSettings getClientSettings(long id) {
-        return repo.findById(id)
+    public ClientSettings getSettingsByClientId(long id) {
+        return repo.findClientSettingsByClientId(id)
                 .orElseThrow(() -> new CustomResourceNotFound("The settings resource entry is not present"));
     }
 

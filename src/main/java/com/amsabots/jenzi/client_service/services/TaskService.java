@@ -4,13 +4,10 @@ package com.amsabots.jenzi.client_service.services;
 import com.amsabots.jenzi.client_service.entities.Tasks;
 import com.amsabots.jenzi.client_service.errorHandlers.CustomResourceNotFound;
 import com.amsabots.jenzi.client_service.repos.TaskRepo;
-import com.amsabots.jenzi.client_service.utils.TaskState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class TaskService {

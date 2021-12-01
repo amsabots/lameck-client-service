@@ -1,4 +1,4 @@
-package com.amsabots.jenzi.client_service.utils;
+package com.amsabots.jenzi.client_service.enumUtils;
 
 /**
  * @author andrew mititi on Date 11/16/21

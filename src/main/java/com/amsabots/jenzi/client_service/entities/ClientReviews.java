@@ -25,6 +25,7 @@ public class ClientReviews extends AbstractClient {
     private float stars;
     private long fundiReview;
     private String backgroundColor;
+    private boolean isFlagged = false;
 
     @ManyToOne
     @JoinColumn(name = "clientId")
