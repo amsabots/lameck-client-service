@@ -5,6 +5,6 @@ spring:
     database: postgresql
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: jenzi
-    password: jenzi@2022
-    url: jdbc:postgresql://localhost/jenzi
+    username: ${DB_USERNAME:jenzi}
+    password: ${DB_PASSWORD:jenzi@2022}
+    url: jdbc:postgresql://${DB_HOST:localhost}/${DB_NAME:jenzi}

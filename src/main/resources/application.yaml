@@ -2,7 +2,10 @@ spring:
   main:
     banner-mode: off
     log-startup-info: false
-
+  webflux:
+    base-path: /client/api
+  profiles:
+    active: ${EXEC_ENV:test}
 #
 eureka:
   client:
@@ -12,4 +15,5 @@ server:
   port: 27900
   servlet:
     context-path: /client/api
+
 #

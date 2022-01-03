@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @Project lameck-client-service
  */
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/clients")
 @Slf4j
 public class ClientController {
     @Autowired
