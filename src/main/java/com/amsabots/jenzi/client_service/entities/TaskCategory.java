@@ -1,6 +1,7 @@
 package com.amsabots.jenzi.client_service.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class TaskCategory extends AbstractClient {
     private long id;
 
     private String title;
-    @OneToMany(mappedBy = "taskCategory")
+    @OneToMany(mappedBy = "taskCategory", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Tasks> tasks;
 }
