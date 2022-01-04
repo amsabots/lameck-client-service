@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ClientService {
 
@@ -34,8 +36,11 @@ public class ClientService {
         clientRepo.deleteById(id);
     }
 
-    public Client findAccountByEmail(String email){
-        return clientRepo.findClientByEmail(email)
-                .orElseThrow(()-> new CustomResourceNotFound("Account with that specified email does not exist"));
+    public Optional<Client> findAccountByEmail(String email) {
+        return clientRepo.findClientByEmail(email);
+    }
+
+    public long countClients() {
+        return clientRepo.count();
     }
 }

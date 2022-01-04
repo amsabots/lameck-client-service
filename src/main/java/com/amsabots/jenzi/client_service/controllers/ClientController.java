@@ -2,16 +2,19 @@ package com.amsabots.jenzi.client_service.controllers;
 
 import com.amsabots.jenzi.client_service.entities.Client;
 import com.amsabots.jenzi.client_service.entities.ClientSettings;
+import com.amsabots.jenzi.client_service.errorHandlers.CustomBadRequest;
 import com.amsabots.jenzi.client_service.errorHandlers.CustomResourceNotFound;
 import com.amsabots.jenzi.client_service.repos.ClientSettingsRepo;
 import com.amsabots.jenzi.client_service.services.ClientService;
 import com.amsabots.jenzi.client_service.services.ClientSettingsService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,11 +27,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/clients")
 @Slf4j
+@AllArgsConstructor
 public class ClientController {
-    @Autowired
     private ClientService clientService;
-    @Autowired
     private ClientSettingsService settingsRepo;
+    private PasswordEncoder encoder;
 
 
     /*
@@ -56,7 +59,7 @@ public class ClientController {
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/{id}")
     public ResponseEntity<String> deleteClient(@PathVariable Long id) {
         clientService.deleteClient(id);
-        return ResponseEntity.ok("\"statusCode\":200, \"message\":\"client id submitted has been removed successfully\"");
+        return ResponseEntity.ok("{\"statusCode\":200, \"message\":\"client id submitted has been removed successfully\"}");
     }
 
     /*
@@ -65,11 +68,13 @@ public class ClientController {
      * process
      * */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Client> initializeClient(@RequestBody Client client) {
+    public ResponseEntity<Object> initializeClient(@RequestBody Client client) {
+        Client byEmail = clientService.findAccountByEmail(client.getEmail()).orElse(null);
+        if (null != client.getPassword()) client.setPassword(encoder.encode(client.getPassword()));
+        if (null != byEmail)
+            return ResponseEntity.badRequest().body("{\"message\":\"Account with that email already exists\"}");
         Client c = clientService.createClientOrUpdate(client);
-        ClientSettings clientSettings = new ClientSettings();
-        clientSettings.setClient(c);
-        settingsRepo.saveDefaultSettings(clientSettings);
+//
         return ResponseEntity.ok(c);
     }
 
@@ -82,9 +87,17 @@ public class ClientController {
     }
 
     //get client using email provided - primarily used to fetch account details during signup/login
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/details-email")
-    public ResponseEntity<Client> findClientByEmail(@RequestParam String email) {
-        return ResponseEntity.ok(clientService.findAccountByEmail(email));
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/details-email")
+    public ResponseEntity<Client> findClientByEmail(@RequestBody Client c) {
+        Client client = clientService.findAccountByEmail(c.getEmail()).orElseThrow(() -> new CustomResourceNotFound("Account with that specific email does not exist"));
+        boolean right = encoder.matches(c.getPassword(), client.getPassword());
+        if (!right) throw new CustomBadRequest("Email or password details provided are wrong");
+        return ResponseEntity.ok(client);
+    }
+
+    @GetMapping(path = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> countClient() {
+        return ResponseEntity.ok().body(String.format("{\"message\":\"%s\"}", clientService.countClients()));
     }
 
 

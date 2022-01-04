@@ -3,6 +3,7 @@ package com.amsabots.jenzi.client_service.entities;
 import com.amsabots.jenzi.client_service.enumUtils.AccountType;
 import com.amsabots.jenzi.client_service.enumUtils.ClientAccountProvider;
 import com.amsabots.jenzi.client_service.utils.Utils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,7 @@ public class Client extends AbstractClient {
     private boolean isVerified = false;
     private String currentLocation;
     private String secondaryPhonenumber;
+    private boolean resetPassword = false;
 
     @Enumerated(EnumType.STRING)
     private ClientAccountProvider provider;
@@ -44,11 +46,13 @@ public class Client extends AbstractClient {
     private float accountBalance = 0;
 
     //    relationships
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Tasks> tasks;
-    @OneToMany(mappedBy = "client")
+    @JsonIgnore
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private List<ClientReviews> clientReviews;
-    @OneToOne(mappedBy = "client")
+    @OneToOne(mappedBy = "client", orphanRemoval = true)
     private ClientSettings clientSettings;
 
     @PrePersist
