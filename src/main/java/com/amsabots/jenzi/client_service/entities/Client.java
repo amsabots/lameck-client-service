@@ -34,6 +34,7 @@ public class Client extends AbstractClient {
     private String currentLocation;
     private String secondaryPhonenumber;
     private boolean resetPassword = false;
+    private String photoUrl;
 
     @Enumerated(EnumType.STRING)
     private ClientAccountProvider provider;
