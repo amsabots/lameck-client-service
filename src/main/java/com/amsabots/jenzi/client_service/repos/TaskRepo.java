@@ -18,4 +18,6 @@ public interface TaskRepo extends JpaRepository<Tasks, Long> {
 
     public Optional<Tasks> findTasksByTaskId(String taskId);
 
+    public long countAllByClientId(long id);
+
 }

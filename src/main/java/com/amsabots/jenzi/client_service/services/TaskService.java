@@ -15,10 +15,6 @@ public class TaskService {
     @Autowired
     private TaskRepo taskRepo;
 
-    public Page<Tasks> getAllTaskByClientId(long id, Pageable pageable) {
-        return taskRepo.findTasksByClientId(id, pageable);
-    }
-
     public Tasks createTask(Tasks tasks) {
         return taskRepo.save(tasks);
     }
@@ -29,8 +25,8 @@ public class TaskService {
 
     public Tasks findJobTaskById(String id) {
         if (id.length() > 6) return taskRepo.findTasksByTaskId(id)
-                .orElseThrow(() -> new CustomResourceNotFound("The Job id provided much no entry in our records"));
+                .orElseThrow(() -> new CustomResourceNotFound("The Job id provided does not match any existing records"));
         return taskRepo.findById(Long.valueOf(id))
-                .orElseThrow(() -> new CustomResourceNotFound("The Job id provided much no entry in our records"));
+                .orElseThrow(() -> new CustomResourceNotFound("The Job id provided does not match any existing records"));
     }
 }

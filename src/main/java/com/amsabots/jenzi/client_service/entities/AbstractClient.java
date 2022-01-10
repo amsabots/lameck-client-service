@@ -18,6 +18,7 @@ import java.util.Date;
 public class AbstractClient implements Serializable {
 
     @CreatedDate
+    @Column(updatable = false)
     private Date createdAt;
     @LastModifiedDate
     private Date updatedAt;

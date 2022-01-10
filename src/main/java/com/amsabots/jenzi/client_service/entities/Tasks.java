@@ -33,7 +33,7 @@ public class Tasks extends AbstractClient {
     private String taskId;
 
     @ManyToOne
-    @JoinColumn(name = "clientId")
+    @JoinColumn(name = "clientId", updatable = false)
     private Client client;
 
     @ManyToOne
