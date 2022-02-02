@@ -55,6 +55,9 @@ public class Client extends AbstractClient {
     private List<ClientReviews> clientReviews;
     @OneToOne(mappedBy = "client", orphanRemoval = true)
     private ClientSettings clientSettings;
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Payments> payments;
 
     @PrePersist
     public void setInitialDetails() {
