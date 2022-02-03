@@ -14,7 +14,7 @@ public class Payments extends AbstractClient{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String fundiId;
-    private String clientId;
+    private String userId;
     private double amount;
     private boolean disputed = false;
     private String projectId;

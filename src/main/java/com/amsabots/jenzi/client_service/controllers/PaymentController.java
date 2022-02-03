@@ -1,7 +1,6 @@
 package com.amsabots.jenzi.client_service.controllers;
 
 import com.amsabots.jenzi.client_service.entities.Payments;
-import com.amsabots.jenzi.client_service.errorHandlers.CustomBadRequest;
 import com.amsabots.jenzi.client_service.errorHandlers.CustomResourceNotFound;
 import com.amsabots.jenzi.client_service.repos.PaymentsRepo;
 import lombok.AllArgsConstructor;
@@ -16,12 +15,12 @@ import java.util.List;
 @RequestMapping("/payments")
 @Slf4j
 @AllArgsConstructor
-public class PaymentService {
+public class PaymentController {
     private PaymentsRepo repo;
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Payments>> getAllPayments(@PathVariable String id) {
-        List<Payments> payments = repo.findAllByClientId(id);
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Payments>> paymentsByUserId(@PathVariable String id) {
+        List<Payments> payments = repo.findAllByUserId(id);
         return ResponseEntity.ok(payments);
     }
 
@@ -44,7 +43,7 @@ public class PaymentService {
         return ResponseEntity.ok().body("{\"message\":\"The payment entry has been deleted successfully\"}");
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/{id}")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/payment/{id}")
     public ResponseEntity<Payments> getPaymentById(@PathVariable long id) {
         Payments p = repo.findById(id).orElseThrow(() -> new CustomResourceNotFound("This resource cannot be traced."));
         return ResponseEntity.ok().body(p);
