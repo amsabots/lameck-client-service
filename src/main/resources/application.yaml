@@ -8,6 +8,12 @@ spring:
     base-path: /client/api
   application:
     name: client-service
+  rabbitmq:
+    rabbitmq:
+      host: ${MQ_HOST:localhost}
+      port: ${MQ_PORT:5672}
+      username: ${MQ_USER:guest}
+      password: ${MQ_PASSWORD:guest}
 #
 eureka:
   client:
