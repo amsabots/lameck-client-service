@@ -7,9 +7,12 @@ import com.amsabots.jenzi.client_service.errorHandlers.CustomResourceNotFound;
 import com.amsabots.jenzi.client_service.repos.TaskRepo;
 import com.amsabots.jenzi.client_service.responseObjects.PageableResponse;
 import com.amsabots.jenzi.client_service.services.TaskService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +39,8 @@ public class ClientTasksController {
     private TaskRepo taskRepo;
     private TaskService service;
     private RabbitTemplate rabbitTemplate;
+    private ObjectMapper objectMapper;
+    private Jackson2JsonMessageConverter converter;
 
 
     /**
@@ -71,9 +76,10 @@ public class ClientTasksController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Tasks> createTask(@RequestBody Tasks task) {
+    public ResponseEntity<Tasks> createTask(@RequestBody Tasks task) throws JsonProcessingException {
         Tasks new_task =service.createTask(task);
-        rabbitTemplate.convertAndSend(MQParamsConstants.JENZI_EXCHANGE, MQParamsConstants.FUNDI_NEW_PROJECT_QUEUE_KEY, new_task );
+        rabbitTemplate.convertAndSend(MQParamsConstants.JENZI_EXCHANGE, MQParamsConstants.FUNDI_NEW_PROJECT_QUEUE_KEY,
+                objectMapper.writeValueAsString(new_task));
         return ResponseEntity.ok(new_task);
     }
 
