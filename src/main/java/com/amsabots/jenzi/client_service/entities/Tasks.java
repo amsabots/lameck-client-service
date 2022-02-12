@@ -31,6 +31,7 @@ public class Tasks extends AbstractClient {
     private TaskState taskState;
     @Column(nullable = false,updatable = false)
     private String taskId;
+    private String fundiId;
 
     @ManyToOne
     @JoinColumn(name = "clientId", updatable = false)

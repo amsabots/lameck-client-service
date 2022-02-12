@@ -1,18 +1,22 @@
 package com.amsabots.jenzi.client_service.controllers;
 
+import com.amsabots.jenzi.client_service.config.MQParamsConstants;
 import com.amsabots.jenzi.client_service.entities.Tasks;
 import com.amsabots.jenzi.client_service.errorHandlers.CustomBadRequest;
 import com.amsabots.jenzi.client_service.errorHandlers.CustomResourceNotFound;
 import com.amsabots.jenzi.client_service.repos.TaskRepo;
 import com.amsabots.jenzi.client_service.responseObjects.PageableResponse;
 import com.amsabots.jenzi.client_service.services.TaskService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.print.attribute.standard.Media;
 import java.util.Locale;
@@ -27,12 +31,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/jobs")
 @Slf4j
+@AllArgsConstructor
 public class ClientTasksController {
-
-    @Autowired
     private TaskRepo taskRepo;
-    @Autowired
     private TaskService service;
+    private RabbitTemplate rabbitTemplate;
+
 
     /**
      * Url preserved for admin account - security configuration to verify acccess should be pluged in
@@ -68,7 +72,9 @@ public class ClientTasksController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tasks> createTask(@RequestBody Tasks task) {
-        return ResponseEntity.ok(service.createTask(task));
+        Tasks new_task =service.createTask(task);
+        rabbitTemplate.convertAndSend(MQParamsConstants.JENZI_EXCHANGE, MQParamsConstants.FUNDI_NEW_PROJECT_QUEUE_KEY, new_task );
+        return ResponseEntity.ok(new_task);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
