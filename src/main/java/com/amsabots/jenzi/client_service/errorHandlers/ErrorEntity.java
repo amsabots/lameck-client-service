@@ -5,7 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @NoArgsConstructor
 @Data
@@ -20,6 +22,4 @@ public class ErrorEntity {
         this.statusCode = statusCode;
         this.errorCode = errorCode;
     }
-
-    private LocalDateTime time = LocalDateTime.now();
 }
