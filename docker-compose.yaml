@@ -15,7 +15,7 @@ services:
       - EXEC_ENV=prod
       - DB_NAME=jenzi
       - EUREKA_URI=http://eureka-server:8761/eureka
-      - MQ_HOST=rabbit_mq
+      - MQ_HOST=mq
 
 
 
