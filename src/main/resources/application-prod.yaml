@@ -10,3 +10,4 @@ spring:
     url: jdbc:mysql://${DB_HOST:localhost:3307}/${DB_NAME:jenzi}
     hikari:
       max-lifetime: 60000
+      validation-timeout: 30000
