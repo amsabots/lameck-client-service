@@ -28,10 +28,12 @@ public class Tasks extends AbstractClient {
     private String description;
     private Date completionDate;
     @Enumerated(EnumType.STRING)
-    private TaskState taskState;
-    @Column(nullable = false,updatable = false)
+    private TaskState.TaskStateEnum taskState;
+    @Column(nullable = false, updatable = false)
     private String taskId;
     private String fundiId;
+    @Enumerated(EnumType.STRING)
+    private TaskState.PendingTaskStates pendingTaskStates;
 
     @ManyToOne
     @JoinColumn(name = "clientId", updatable = false)
@@ -44,6 +46,7 @@ public class Tasks extends AbstractClient {
     @PrePersist
     public void setEntryDefaults() {
         setTaskId(UUID.randomUUID().toString().replaceAll("-", ""));
-        setTaskState(TaskState.PENDING);
+        setTaskState(TaskState.TaskStateEnum.PENDING);
+        setPendingTaskStates(TaskState.PendingTaskStates.ONGOING);
     }
 }

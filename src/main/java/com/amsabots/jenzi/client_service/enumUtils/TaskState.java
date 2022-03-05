@@ -1,5 +1,10 @@
 package com.amsabots.jenzi.client_service.enumUtils;
 
-public enum TaskState {
-    COMPLETE, ON_GOING, CANCELLED, PENDING
+public class TaskState {
+    public enum TaskStateEnum{
+        COMPLETE, ONGOING, CANCELLED, PENDING
+    }
+    public enum PendingTaskStates {
+        CANCEL_PENDING, COMPLETE_PENDING, ONGOING
+    }
 }
