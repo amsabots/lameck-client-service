@@ -34,6 +34,7 @@ public class Tasks extends AbstractClient {
     private String fundiId;
     @Enumerated(EnumType.STRING)
     private TaskState.PendingTaskStates pendingTaskStates;
+    private String actionReason;
 
     @ManyToOne
     @JoinColumn(name = "clientId", updatable = false)

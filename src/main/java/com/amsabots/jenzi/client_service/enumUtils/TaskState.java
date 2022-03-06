@@ -5,6 +5,6 @@ public class TaskState {
         COMPLETE, ONGOING, CANCELLED, PENDING
     }
     public enum PendingTaskStates {
-        CANCEL_PENDING, COMPLETE_PENDING, ONGOING
+        CANCEL_PENDING, COMPLETE_PENDING, ONGOING, COMPLETE, CANCELLED, DISPUTED
     }
 }
