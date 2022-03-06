@@ -46,7 +46,7 @@ public class Tasks extends AbstractClient {
     @PrePersist
     public void setEntryDefaults() {
         setTaskId(UUID.randomUUID().toString().replaceAll("-", ""));
-        setTaskState(TaskState.TaskStateEnum.PENDING);
+        setTaskState(TaskState.TaskStateEnum.ONGOING);
         setPendingTaskStates(TaskState.PendingTaskStates.ONGOING);
     }
 }
