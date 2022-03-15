@@ -42,7 +42,7 @@ public class ClientController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Client>> getClients(@RequestParam(required = false) Integer page,
                                                    @RequestParam(required = false) Integer size) {
-        int pageSize = page == null ? 20 : size;
+        int pageSize = page == null ? 400 : size;
         log.info("Received data on the request, \ncurrent page: {}\nPage size: {}", page, pageSize);
         Pageable pageable = PageRequest.of(0, pageSize);
         List<Client> client = clientService.getAllClients(pageable).getContent();
