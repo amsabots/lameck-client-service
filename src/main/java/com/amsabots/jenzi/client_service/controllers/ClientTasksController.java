@@ -9,6 +9,7 @@ import com.amsabots.jenzi.client_service.responseObjects.PageableResponse;
 import com.amsabots.jenzi.client_service.services.TaskService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -78,7 +79,7 @@ public class ClientTasksController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tasks> createTask(@RequestBody Tasks task) throws JsonProcessingException {
         Tasks new_task =service.createTask(task);
-        rabbitTemplate.convertAndSend(MQParamsConstants.JENZI_EXCHANGE, MQParamsConstants.FUNDI_NEW_PROJECT_QUEUE_KEY,
+        rabbitTemplate.convertAndSend(MQParamsConstants.JENZI_EXCHANGE, "JENZI_GENERAL_QUEUE_KEY",
                 objectMapper.writeValueAsString(new_task));
         return ResponseEntity.ok(new_task);
     }
