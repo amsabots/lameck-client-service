@@ -31,17 +31,4 @@ public class ClientServiceApplication {
         SpringApplication.run(ClientServiceApplication.class, args);
     }
 
-    @PostConstruct
-    public void test() throws JsonProcessingException {
-        ObjectNode node1 = mapper.createObjectNode();
-        node1.put("action", "NEW_PROJECT");
-        ObjectNode node2 = mapper.createObjectNode();
-        node2.put("taskId", "dsfdfsfsdfsdf");
-        node2.put("fundiId", "dsfdsfdsfdsfdsfds");
-        node1.set("payload", node2);
-        rabbitTemplate.convertAndSend(MQParamsConstants.JENZI_EXCHANGE, "JENZI_GENERAL_QUEUE_KEY",
-                mapper.writeValueAsString(node1));
-
-    }
-
 }
