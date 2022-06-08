@@ -77,10 +77,8 @@ public class ClientTasksController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Tasks> createTask(@RequestBody Tasks task) throws JsonProcessingException {
-        Tasks new_task =service.createTask(task);
-        rabbitTemplate.convertAndSend(MQParamsConstants.JENZI_EXCHANGE, "JENZI_GENERAL_QUEUE_KEY",
-                objectMapper.writeValueAsString(new_task));
+    public ResponseEntity<Tasks> createTask(@RequestBody Tasks task) {
+        Tasks new_task = service.createTask(task);
         return ResponseEntity.ok(new_task);
     }
 
