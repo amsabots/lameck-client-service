@@ -78,6 +78,7 @@ public class ClientTasksController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tasks> createTask(@RequestBody Tasks task) {
+        log.debug(task.toString());
         Tasks new_task = service.createTask(task);
         return ResponseEntity.ok(new_task);
     }
